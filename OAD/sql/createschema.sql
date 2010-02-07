@@ -40,3 +40,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 ALTER TABLE `addresses`
  ADD CONSTRAINT `addresses_ibfk_2` FOREIGN KEY (`locatedby`) REFERENCES `users` (`id`),
  ADD CONSTRAINT `addresses_ibfk_1` FOREIGN KEY (`addedby`) REFERENCES `users` (`id`);
+
+create user OAD identified by 'OAD';
+
+grant all on OAD.* to OAD;
