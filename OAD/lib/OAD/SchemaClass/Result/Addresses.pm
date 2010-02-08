@@ -45,19 +45,19 @@ __PACKAGE__->add_columns(
   "addedby",
   { data_type => "BIGINT", default_value => undef, is_nullable => 0, size => 20 },
   "locatedby",
-  { data_type => "BIGINT", default_value => undef, is_nullable => 0, size => 20 },
+  { data_type => "BIGINT", default_value => undef, is_nullable => 1, size => 20 },
 );
 __PACKAGE__->set_primary_key("id");
-__PACKAGE__->belongs_to(
-  "locatedby",
-  "OAD::SchemaClass::Result::Users",
-  { id => "locatedby" },
-);
-__PACKAGE__->belongs_to(
-  "addedby",
-  "OAD::SchemaClass::Result::Users",
-  { id => "addedby" },
-);
+# __PACKAGE__->belongs_to(
+#   "locatedby",
+#   "OAD::SchemaClass::Result::Users",
+#   { id => "locatedby" },
+# );
+# __PACKAGE__->belongs_to(
+#   "addedby",
+#   "OAD::SchemaClass::Result::Users",
+#   { id => "addedby" },
+# );
 
 
 # Created by DBIx::Class::Schema::Loader v0.04006 @ 2010-02-07 09:41:28
