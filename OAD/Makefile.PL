@@ -12,6 +12,7 @@ requires 'Catalyst::Action::RenderView';
 requires 'Catalyst::Plugin::AutoCRUD';
 requires 'Config::JFDI';
 requires 'parent';
+requires 'SQL::Translator'
 requires 'Config::General'; # This should reflect the config file format you've chosen
                  # See Catalyst::Plugin::ConfigLoader for supported formats
 catalyst;
