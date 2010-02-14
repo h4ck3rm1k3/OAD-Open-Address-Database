@@ -30,7 +30,9 @@ our $VERSION = '0.01';
 # with an external configuration file acting as an override for
 # local deployment.
 
-__PACKAGE__->config( name => 'OAD' );
+__PACKAGE__->config( name => 'OAD' ,
+		     default_view => "TT"
+    );
 
 # Start the application
 __PACKAGE__->setup();
