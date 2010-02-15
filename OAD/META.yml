@@ -23,7 +23,13 @@ requires:
   Catalyst::Plugin::ConfigLoader: 0
   Catalyst::Plugin::Static::Simple: 0
   Catalyst::Runtime: 5.80013
+  Catalyst::View::TT: 0
   Config::General: 0
+  Config::JFDI: 0
+  DBD::CSV: 0
+  DBIx::SQLEngine: 0
+  Geo::GeoNames: 0
+  SQL::Translator: 0
   parent: 0
 resources:
   license: http://dev.perl.org/licenses/

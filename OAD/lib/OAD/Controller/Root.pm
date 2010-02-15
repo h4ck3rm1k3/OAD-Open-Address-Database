@@ -3,7 +3,7 @@ package OAD::Controller::Root;
 use strict;
 use warnings;
 use parent 'Catalyst::Controller';
-
+use Data::Dumper;
 #
 # Sets the actions in this controller to be registered with no prefix
 # so they function identically to actions created in MyApp.pm
@@ -69,6 +69,67 @@ sub view :Local :Args(1)
 
 
 }
+
+
+sub DoImport
+{
+    my ( $self, $c, $source_name, $results ) = @_;
+#    $c->model('FilmDB')->schema; 
+    warn "source $source_name";
+#    warn "results " . Dumper($results);
+    my $rs = $c->model($source_name);
+    my $schema = $rs->result_class();
+
+    foreach my $row (@{$results}) # array of hashes
+    {
+
+
+	my $obj = {}; #= 
+
+	foreach my $k (keys %{$row})
+	{	    
+#	    $rs
+	    my $val=$row->{$k};
+	    if ($rs->result_source()->has_column($k))
+	    {
+		$obj->{$k}=$val;
+	    }
+	    else
+	    {
+		warn "Skipping not in model $k and $val";
+	    }
+	}
+
+#	$new_rs = $rs->search( {  id => []} )
+
+	if ($obj->{Street} ne "")
+	{
+	    $obj->{addedby} = 1;
+	    $obj->{locatedby}= 1;
+	    $rs->create($obj);
+	}
+	else
+	{
+	    warn "skipping results " . Dumper($row);	    
+	    warn "skipping object " . Dumper($obj);	    
+	}
+    }
+    return $results;
+}
+
+sub Import :Local :Args(2)
+{
+    my ( $self, $c, $source, $file ) = @_;
+    $c->stash->{filename} = $file;
+    $c->stash->{source} = $source;
+    
+    $c->stash->{results} =  DoImport($self,$c, $source, $c->model("DBI::CSV")->file($file));
+    
+    $c->stash->{template} = 'geonames/import.tt2';
+
+
+}
+
 =head2 end
 
 Attempt to render a view, if needed.
