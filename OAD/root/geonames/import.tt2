@@ -1,0 +1,21 @@
+<html>
+view of some file 
+<b>NAME:/tmp/upload/[% filename %]</b>
+  [% USE Dumper %]
+
+<table>
+[% FOREACH row IN results %]
+
+<tr>
+[% FOREACH key IN row %]
+
+<td>
+KEY   :[% key.key %]
+VALUE :[% key.value %]
+
+</td>
+[% END %]
+</tr>
+[% END %]
+<table>
+</html>
