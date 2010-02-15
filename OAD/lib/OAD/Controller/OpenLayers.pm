@@ -26,10 +26,11 @@ sub index :Path :Args(0) {
 
     $c->response->body('Matched OAD::Controller::OpenLayers in OpenLayers.');
 }
-sub basic : Local {
-        my ($self, $c) = @_;
+sub basic : Local :Args(2){
+        my ($self, $c, $lat, $lon) = @_;
 
-        $c->stash->{openlayers} = '';
+        $c->stash->{openlayers}{center}{lat} = $lat;
+        $c->stash->{openlayers}{center}{lon} = $lon;
 #	$c->stash(current_view => "TT");
         # Set the TT template to use.  You will almost always want to do this
         # in your action methods (action methods respond to user input in

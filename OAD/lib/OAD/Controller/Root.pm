@@ -39,6 +39,36 @@ sub default :Path {
     $c->response->status(404);
 }
 
+sub upload : Global {
+    my ($self, $c) = @_;
+    
+    if ( $c->request->parameters->{form_submit} eq 'yes' ) {
+	
+	if ( my $upload = $c->request->upload('my_file') ) {
+	    
+	    my $filename = $upload->filename;
+	    my $target   = "/tmp/upload/$filename";
+	    
+	    unless ( $upload->link_to($target) || $upload->copy_to($target) ) {
+		die( "Failed to copy '$filename' to '$target': $!" );
+	    }
+	}
+    }
+    
+    $c->stash->{template} = 'geonames/upload.tt2';
+}
+
+sub view :Local :Args(1)
+{
+    my ( $self, $c, $file ) = @_;
+    $c->stash->{filename} = $file;
+
+    $c->stash->{results} =  $c->model("DBI::CSV")->file($file);
+    
+    $c->stash->{template} = 'geonames/view.tt2';
+
+
+}
 =head2 end
 
 Attempt to render a view, if needed.

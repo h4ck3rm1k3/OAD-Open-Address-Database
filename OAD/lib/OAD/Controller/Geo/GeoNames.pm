@@ -1,6 +1,7 @@
 package OAD::Controller::Geo::GeoNames;
 use Moose;
 use namespace::autoclean;
+use Data::Dumper;
 
 BEGIN {extends 'Catalyst::Controller'; }
 
@@ -30,13 +31,12 @@ sub index :Path :Args(0) {
 sub  search  : Local :Args(1) 
 {
     my ( $self, $c ,$name ) = @_;
-    my $result = $c->model('Geo::GeoNames')->search(q => $name, maxRows => 2);
-    $c->stash->{template} = 'geonames/search.tt2';
-    $c->stash->{geonames} = $result;
+    my $result = $c->model('Geo::GeoNames')->search(q => $name, maxRows => 1);
 
-#    print " Name: " . $result->[0]->{name};
-#    print " Longitude: " . $result->[0]->{lng};
-#    print " Lattitude: " . $result->[0]->{lat};
+    $c->stash->{openlayers}{center}{lat} = $result->[0]->{"lat"};
+    $c->stash->{openlayers}{center}{lon} = $result->[0]->{"lng"};
+
+    $c->stash->{template} = 'openlayers/basic.tt2';
 
 }
 

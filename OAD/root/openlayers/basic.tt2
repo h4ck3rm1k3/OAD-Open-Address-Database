@@ -9,19 +9,14 @@
         }
     </style>
     <script src="/static/OpenLayers/lib/OpenLayers.js"></script>
+    <script src="/static/OpenLayers/lib/OpenStreetMap.js"></script>
+
+
     <script type="text/javascript">
         var lon = 5;
         var lat = 40;
-        var zoom = 5;
-        var map, layer, gml;
-        function export_vectors() {
-            var x = new OpenLayers.Format.XML();
-            var content = x.write(gml.renderer.rendererRoot);
-            $("vectors").value = content;
-            $("vectors").style.display = "block";
-            $("vectorlink").href = "data:image/svg+xml," + escape(content);
-            $("vectorlink").style.display="block";
-        }
+        var zoom = 12;
+        var map, layer;
         function on_feature_hover(feature) {
             var text ="<ul>";
             var type ="way";
@@ -36,15 +31,12 @@
             $("status").innerHTML = text;
         }   
         function clear_data() {
-            gml.destroyFeatures();
+
         }
         function new_data() {
             if (!check_zoom()) { return; }
             clear_data();
-            gml.loaded = false;
-            gml.url = "http://www.openstreetmap.org/api/0.5/map?bbox=" + map.getExtent().toBBOX();
-            $("status").innerHTML = "Loading more data...";
-            gml.loadGML();
+
         }
         function style_osm_feature(feature) {
             feature.style = OpenLayers.Util.extend({'fill':'black'}, OpenLayers.Feature.Vector.style['default']);
@@ -70,40 +62,37 @@
             OpenLayers.ProxyHost = "proxy.cgi?url=";
             OpenLayers.Feature.Vector.style['default'].strokeWidth = 4;
             OpenLayers.Feature.Vector.style['default'].cursor = 'pointer';
-            map = new OpenLayers.Map('map', {'maxResolution': 360/512/16, 'numZoomLevels':15, controls: [ new OpenLayers.Control.Navigation(), new OpenLayers.Control.PanZoomBar() ]});
-            map.addControl(new OpenLayers.Control.LayerSwitcher());
-            map.addControl(new OpenLayers.Control.Permalink());
-            layer = new OpenLayers.Layer.WMS( "OSM", 
-               [
-                 "http://t1.hypercube.telascience.org/tiles?",
-                 "http://t2.hypercube.telascience.org/tiles?",
-                 "http://t3.hypercube.telascience.org/tiles?",
-                 "http://t4.hypercube.telascience.org/tiles?"
-                 ], 
-                {layers: 'osm-4326', format: 'image/png' } );
-            map.addLayer(layer);
-            if (!map.getCenter()) { 
-                gml = new OpenLayers.Layer.GML("OSM", "osm/sutton_coldfield.osm", {format: OpenLayers.Format.OSM});
-                map.zoomToExtent(new OpenLayers.Bounds(-1.819072,52.549034,-1.814341,52.551582));
-            } else {
-                if (map.getZoom() >= 11) {
-                    gml = new OpenLayers.Layer.GML("OSM", "http://www.openstreetmap.org/api/0.5/map?bbox=" + map.getExtent().toBBOX(), {format: OpenLayers.Format.OSM});
-                } else {
-                    gml = new OpenLayers.Layer.GML("OSM", "xml/cambridgeport.osm", {format: OpenLayers.Format.OSM});
-                }    
-            }    
-            gml.events.register("loadstart", null, function() { $("status").innerHTML = "Loading..."; })
-            gml.events.register("loadend", null, function() { $("status").innerHTML = ""; })
-            map.addLayer(gml);
-            gml.preFeatureInsert = style_osm_feature; 
-            var sf = new OpenLayers.Control.SelectFeature(gml, {'onSelect': on_feature_hover});
-            map.addControl(sf);
-            sf.activate();
+
+
+  map = new OpenLayers.Map ("map", {
+          controls:[
+            new OpenLayers.Control.Navigation(),
+            new OpenLayers.Control.PanZoomBar(),
+            new OpenLayers.Control.Attribution()],
+//          maxExtent: new OpenLayers.Bounds(-20037508.34,-20037508.34,20037508.34,20037508.34),
+          maxResolution: 156543.0399,
+          numZoomLevels: 19,
+          units: 'm',
+          projection: new OpenLayers.Projection("EPSG:900913"),
+          displayProjection: new OpenLayers.Projection("EPSG:4326")
+        } );
+
+        layerTilesAtHome = new OpenLayers.Layer.OSM.Osmarender("Osmarender");
+        map.addLayer(layerTilesAtHome);
+
+	if( ! map.getCenter() ){
+          var lonLat = new OpenLayers.LonLat([% openlayers.center.lon %], [% openlayers.center.lat %]).transform(new OpenLayers.Projection("EPSG:4326"), map.getProjectionObject());
+          map.setCenter (lonLat, zoom);
+        }
+
+
         }
     </script>
   </head>
   <body onload="init()">
     <h1 id="title">Advanced OSM Layer</h1>
+    <h2>[% openlayers.center.lon %], [% openlayers.center.lat %] </h2> 
+
     <div id="map" class="smallmap"></div>
     <div id="download">
       <ul>

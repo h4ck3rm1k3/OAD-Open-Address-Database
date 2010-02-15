@@ -1,0 +1,29 @@
+<html>
+  [% FOREACH name = geonames %]
+  name:  [% name.name %]
+     [% name.lat %]
+     [% name.lng %]
+  [% END %]
+</html>
+## 'population' => {},
+##            'lat' => '59.2166667',
+##            'elevation' => {},
+##            'countryCode' => 'NO',
+##            'adminName1' => "\x{d8}stfold",
+##            'fclName' => 'city, village,...',
+##            'adminCode2' => {},
+##            'lng' => '10.95',
+##            'geonameId' => '3156529',
+##            'timezone' => {
+##                          'dstOffset' => '2.0',
+##                          'content' => 'Europe/Oslo',
+##                          'gmtOffset' => '1.0'
+##                        },
+##            'fcode' => 'PPL',
+##            'countryName' => 'Norway',
+##            'name' => 'Fredrikstad',
+##            'fcodeName' => 'populated place',
+##            'alternateNames' => 'Frederikstad,Fredrikstad,Fredrikstad kommun',
+##            'adminCode1' => '13',
+##            'adminName2' => {},
+##            'fcl' => 'P'

@@ -31,7 +31,8 @@ our $VERSION = '0.01';
 # local deployment.
 
 __PACKAGE__->config( name => 'OAD' ,
-		     default_view => "TT"
+		     default_view => "TT",
+		     uploadtmp => '/tmp/oad' # keep the temp files separated
     );
 
 # Start the application

@@ -1,0 +1,6 @@
+<h1>enter your file in csv format here</h1>
+  <form action="/upload" method="post" enctype="multipart/form-data">
+      <input type="hidden" name="form_submit" value="yes">
+      <input type="file" name="my_file">
+      <input type="submit" value="Send">
+    </form>
