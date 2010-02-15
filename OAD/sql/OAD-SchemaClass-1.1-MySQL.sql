@@ -10,7 +10,7 @@ DROP TABLE IF EXISTS `addresses`;
 -- Table: `addresses`
 --
 CREATE TABLE `addresses` (
-  `id` BIGINT(20) NOT NULL,
+  `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
   `street` VARCHAR(255) NOT NULL,
   `suburb` VARCHAR(255) NOT NULL,
   `state` VARCHAR(255) NOT NULL,
@@ -21,10 +21,11 @@ CREATE TABLE `addresses` (
   `locatedby` BIGINT(20) NOT NULL,
   INDEX addresses_idx_addedby (`addedby`),
   INDEX addresses_idx_locatedby (`locatedby`),
-  PRIMARY KEY (`id`),
-  CONSTRAINT `addresses_fk_addedby` FOREIGN KEY (`addedby`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `addresses_fk_locatedby` FOREIGN KEY (`locatedby`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
+
+--  CONSTRAINT `addresses_fk_addedby` FOREIGN KEY (`addedby`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+--  CONSTRAINT `addresses_fk_locatedby` FOREIGN KEY (`locatedby`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 
 DROP TABLE IF EXISTS `users`;
 

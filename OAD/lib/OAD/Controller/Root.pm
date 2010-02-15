@@ -90,9 +90,10 @@ sub DoImport
 	{	    
 #	    $rs
 	    my $val=$row->{$k};
-	    if ($rs->result_source()->has_column($k))
+	    if ($rs->result_source()->has_column(lc($k)))
 	    {
-		$obj->{$k}=$val;
+		warn "adding $k and $val";
+		$obj->{lc($k)}=$val;
 	    }
 	    else
 	    {
@@ -100,12 +101,13 @@ sub DoImport
 	    }
 	}
 
-#	$new_rs = $rs->search( {  id => []} )
-
-	if ($obj->{Street} ne "")
+	if ($obj->{street} )
 	{
-	    $obj->{addedby} = 1;
-	    $obj->{locatedby}= 1;
+#	    $obj->{addedby} = 1;
+	    $obj->{suburb}   = $obj->{suburb}   || "NULl";
+#	    $obj->{street}   = $obj->{street}   || "NULl";
+	    $obj->{state}   = $obj->{state}   || "NULl";
+	    $obj->{country}= $obj->{country} || "NULl";
 	    $rs->create($obj);
 	}
 	else
