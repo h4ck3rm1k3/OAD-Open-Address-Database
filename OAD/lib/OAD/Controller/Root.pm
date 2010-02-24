@@ -132,6 +132,17 @@ sub Import :Local :Args(2)
 
 }
 
+
+sub Controller :Local 
+{
+    my ( $self, $c, ) = @_;
+   
+   
+    $c->stash->{template} = 'openlayers/controller.tt2';
+
+
+}
+
 =head2 end
 
 Attempt to render a view, if needed.
