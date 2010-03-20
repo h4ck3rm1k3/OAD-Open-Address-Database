@@ -6,12 +6,38 @@
 // the name of the street in the dialog 
 ///<label id="ext-gen191" for="street" style="width: 100px;" class="x-form-item-label">Street:</label>
 //<textarea name="street" id="street" autocomplete="off" style="width: 243px; height: 38px;" class=" x-form-textarea x-form-field " title="">
+function executeOnLoadMap(e) 
+{
+//    setTimeout(function() {	executeOnLoad();}, 300);
+    alert("loaded map");
+}
 
 // e is Ext.EventObject
 // 
 function handleclick (e , t)
 {
-    alert("clik" + t.name + " val "+ t.value);
+    alert("clik" + t.parentElement.className + " val "+ t.innerHTML );
+
+    if (window.frames['geonames'])
+    {
+	var frame = window.frames['geonames'].document.body;
+	frame.src="/geo/geonames/search/" + t.innerHTML ;
+	alert(frame.src);
+	Ext.EventManager.on(frame, 'load', executeOnLoadMap, this);	
+///getElementById("#iframeFrame").contentWindow.handleclick
+    }
+    else
+    {
+        var frame = document.createElement('iframe');
+        frame.id = "iframe-geo";
+        frame.name = "geonames";
+        frame.height = 1000;
+        frame.width = 1000;
+        frame.src="/geo/geonames/search/" + t.innerHTML ;
+	alert(frame.src);
+        document.body.appendChild(frame);
+	Ext.EventManager.on(frame, 'load', executeOnLoadMap, this);	
+    }
 
 //    var geonames_element = window.frames['geonames'].document.body;
 //Ext.get('center-iframe').dom.src = 'index.html';
@@ -22,23 +48,25 @@ function executeOnLoad(e)
 {
                /* do some stuff */
     var addresses_element = window.frames['addresses'].document.body;
-    alert("loaded iframe");
+
 //    var addresses_element = window.frames['addresses'].document.body;
 //('Ext Core successfully injected');
 //    Ext.get(addresses_element).select('.x-form-item-label').on('click',  handleclick, this  );//update('Ext Core successfully injected');
 //x-form-textarea
-//    Ext.get(addresses_element).select('.x-form-field').on('click',  handleclick, this  );//update('Ext Core successfully injected');
+ //  Ext.get(addresses_element).select('.x-form-field').on('click',  handleclick, this  );//update('Ext Core successfully injected');
 //    Ext.get(window.frames['addresses'].document.body).select('.x-form-textarea').on('click',  handleclick  );
-//    Ext.get(addresses_element).select('.x-form-textarea').on('click',  handleclick , this );
-Ext.get(addresses_element).select('.xgrid3-c-ell-inner').on('click',  handleclick  , this);
+ //  Ext.get(addresses_element).select('.x-form-textarea').on('click',  handleclick , this );
+//Ext.get(addresses_element).select('.xgrid3-c-ell-inner').on('click',  handleclick  , this);
 //Ext.get(addresses_element).select('.x-grid3-col-1').on('click',  handleclick  , this);
 //Ext.get(addresses_element).select('.x-grid3-col-2').on('click',  handleclick  , this);
+//x-grid3-cell-inner x-grid3-col-3
+
 //Ext.get(addresses_element).select('.x-grid3-col-3').on('click',  handleclick  , this);
 //Ext.get(addresses_element).select('.grid3').on('click',  handleclick  , this);
 //Ext.get(addresses_element).select('.x-grid3-col').on('click',  handleclick , this );
-//Ext.get(addresses_element).select('.x-grid3-cell').on('click',  handleclick  , this);
+Ext.get(addresses_element).select('.x-grid3-cell-inner').on('click',  handleclick  , this);
 //Ext.get(addresses_element).select('.x-grid3-td-1').on('click',  handleclick , this );
-
+    alert("loaded iframe");
             }
 
 function executeOnLoadWait(e) 

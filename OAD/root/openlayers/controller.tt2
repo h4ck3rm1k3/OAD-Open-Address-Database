@@ -4,6 +4,10 @@
 
 <script type='text/javascript' 
 src='/static/prototype/prototype.js'> </script>
+<script type="text/javascript" src="/static/javascript/extjs-2/adapter/ext/ext-base-debug.js"></script>
+<script type="text/javascript" src="/static/javascript/extjs-2/ext-all-debug.js"></script>
+
+<script type='text/javascript' src='/static/javascript/oad.js'> </script>
 <script type='text/javascript'>
 //alert("hello1");
 function ajaxrequest3()
@@ -22,11 +26,7 @@ alert("hello");
 //    var a = document.getElementById("destination").value;
     var a = document.getElementById("current-selection").value;
 
-    var request2 = new Ajax.Request
-        ('http://localhost:3000/geo/geonames/search/' + a ,
-            { method: 'get',
-              onComplete: responseReceivedMap }
-        );
+//THE MAP //    var request2 = new Ajax.Request       ('http://localhost:3000/geo/geonames/search/' + a ,         { method: 'get',          onComplete: responseReceivedMap }        );
 
 
 }
@@ -40,10 +40,10 @@ function responseReceived(xmlHTTP)
 document.getElementById('response_table').innerHTML = xmlHTTP.responseText;
 }
 
-function responseReceivedMap(xmlHTTP)
-{
-document.getElementById('response_map').innerHTML = xmlHTTP.responseText;
-}
+//function responseReceivedMap(xmlHTTP)
+//{
+//document.getElementById('response_map').innerHTML = xmlHTTP.responseText;
+//}
 
 document.observe("dom:loaded", function() {
   
@@ -59,10 +59,13 @@ document.observe("dom:loaded", function() {
 
 <body>
 Response Map <div id="response_map"></div>
-<iframe name="geonames" src="/geo/geonames/search/prizren" height=500 width=1000 >
+<!--
+<iframe id="iframe-geonames" name="geonames" 
+ src="/geo/geonames/search/prizren" height=500 width=1000 >
 </iframe>
+--> 
 
 Response Table <div id="response_table"></div>
-<iframe name="addresses" src="/autocrud/OAD/addresses" height=500 width=1000 >
-</iframe>
+<!-- <iframe id="iframe-addr" name="addresses" src="/autocrud/OAD/addresses" height=500 width=1000 >
+</iframe>-->
 </body></html>
